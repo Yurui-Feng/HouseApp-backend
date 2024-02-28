@@ -1,3 +1,36 @@
-from django.shortcuts import render
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 
-# Create your views here.
+from .models import House
+from .models import Checker
+from .serializer import HouseSerializer
+
+class HouseViewSet(viewsets.ViewSet):
+    def list(self, request):
+        houses = House.objects.all()
+        houses_serializer = HouseSerializer(houses, many=True)
+        return Response(houses_serializer.data)
+    
+    def create(self, request):
+        house_serializer = HouseSerializer(data=request.data)
+        house_serializer.is_valid(raise_exception=True)
+        house_serializer.save()
+        return Response(house_serializer.data, status=status.HTTP_201_CREATED)
+    
+    def retrieve(self, request, pk=None):
+        house = House.objects.get(id=pk)
+        house_serializer = HouseSerializer(house)
+        return Response(house_serializer.data)
+    
+    def update(self, request, pk=None):
+        house = House.objects.get(id=pk)
+        house_serializer = HouseSerializer(instance=house, data=request.data)
+        house_serializer.is_valid(raise_exception=True)
+        house_serializer.save()
+        return Response(house_serializer.data, status=status.HTTP_202_ACCEPTED)
+    
+    def destroy(self, request, pk=None):
+        house = House.objects.get(id=pk)
+        house.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
