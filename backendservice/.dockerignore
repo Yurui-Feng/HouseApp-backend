@@ -1,0 +1,4 @@
+django-env/
+django_requirements.txt
+**/.git
+**/.gitignore

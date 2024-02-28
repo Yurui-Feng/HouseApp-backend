@@ -1,0 +1,3 @@
+#ignore django-env folder
+django-env/
+django_requirements.txt
