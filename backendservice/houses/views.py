@@ -1,5 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+import random
 
 from .models import House
 from .models import Checker
@@ -33,4 +36,9 @@ class HouseViewSet(viewsets.ViewSet):
         house = House.objects.get(id=pk)
         house.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
+
+class CheckerAPIView(APIView):
+    def get(self, request):
+        checkers = Checker.objects.all()
+        checker = random.choice(checkers)
+        return Response({'id': checker.id})
