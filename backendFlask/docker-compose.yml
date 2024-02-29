@@ -4,9 +4,9 @@ services:
     image: backend_flask:v0
     command: 'python3 core.py'
     ports:
-      - 5000:5000
+      - 5001:5001
     volumes:
-      - .:/backendsevice
+      - .:/backendservice
     depends_on:
       db:
         condition: service_healthy
