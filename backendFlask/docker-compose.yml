@@ -7,3 +7,24 @@ services:
       - 5000:5000
     volumes:
       - .:/backendsevice
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: core
+      MYSQL_USER: microservice
+      MYSQL_PASSWORD: microservice
+      MYSQL_ROOT_PASSWORD: microservice
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+
+volumes:
+  dbdata:
