@@ -3,6 +3,10 @@ services:
   backend:
     image: backend_flask:v0
     command: 'python3 core.py'
+    env_file:
+      - .env
+    environment:
+      CLOUDAMQP_URL: $CLOUDAMQP_URL
     ports:
       - 5001:5001
     volumes:
