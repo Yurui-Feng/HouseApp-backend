@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dataclasses import dataclass
 from sqlalchemy import UniqueConstraint
 import requests
+from producer import publish
 
 # Create a new Flask application
 core = Flask(__name__)
@@ -56,6 +57,8 @@ def like(id):
         # Save the new houseChecker
         db.session.add(houseChecker)
         db.session.commit()
+        # Publish a new message to the RabbitMQ
+        publish('house_liked', id)
     except:
         abort(400, 'You already liked this house')
     
@@ -74,13 +77,15 @@ def check(id):
         # Save the new houseChecker
         db.session.add(houseChecker)
         db.session.commit()
+        # Publish a new message to the RabbitMQ
+        publish('house_checked', id)
     except:
         abort(400, 'You already checked this house')
     
     return jsonify({
         'message': 'success'
     })
-    
+
 
 if __name__ == '__main__':
     core.run(debug=True, host='0.0.0.0', port=5001)
