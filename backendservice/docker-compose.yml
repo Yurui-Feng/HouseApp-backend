@@ -2,6 +2,10 @@ version: '2.2'
 services:
   backend:
     image: house-backend-django:v1
+    env_file:
+      - .env
+    environment:
+      CLOUDAMQP_URL: $CLOUDAMQP_URL
     command: 'python3 manage.py runserver 0.0.0.0:8000'
     ports:
       - '8000:8000'
