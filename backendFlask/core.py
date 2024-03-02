@@ -38,10 +38,6 @@ class HouseChecker(db.Model):
 
     UniqueConstraint('checker_id', 'house_id', name='checker_house_unique')
 
-@core.route('/')
-def index():
-    return 'Hello, World!'
-
 @core.route('/api/houses')
 def index():
     return jsonify(House.query.all())

@@ -14,6 +14,11 @@ def callback(ch, method, properties, body):
     data = json.loads(body)
     print(data)
 
+    # Check the content type and perform the appropriate action
+    # For example, if the content type is 'house_created', then create a new house
+    # the content type is equal to the name of the method in the producer
+    # why? because the producer sends the content type as the method
+    # and pika.BasicProperties's first argument is the content type
     if properties.content_type == 'house_created':
         house = House(id=data['id'], name=data['name'], image=data['image'], description=data['description'])
         db.session.add(house)
