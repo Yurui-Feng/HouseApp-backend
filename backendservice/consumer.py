@@ -27,7 +27,7 @@ def callback(ch, method, properties, body):
         house.save()
         print('House checks increased')
 
-channel.basic_cosume(queue='config', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='config', on_message_callback=callback, auto_ack=True)
 
 print('Started consuming')
 
